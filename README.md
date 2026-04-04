@@ -4,14 +4,14 @@
         | 1.DPS Joystick    | ->   |  2. PC DPS        | -> | 3. Panel DPS             |
         +--------+----------+      +--------+----------+    +--------+-----------------+
 
-Update pada coding sebelumnya
+##Update pada coding sebelumnya
 
 | sebelum | sesudah | alasan perubahan |
 |--------------|------------|------------------------|
 |Steaming data per 0.5 detik posisi joystick | Kirim data hanya ketika ada perubahan/instruksi | Memperingan kerja microcontroller dan membuat responsif |
 | Timer Triggered | Event Triggered | Metode yang cocok untuk mengakomodir yang dibutuhkan |
 
-Pinout Joystick
+##Pinout Joystick
 | Tombol | Pin Arduino |
 |--------------|------------|
 |steering 1 Left | 2 |
@@ -28,7 +28,10 @@ Pinout Joystick
 | Slider 4 | A4 |
 
 
-Arduino Library Requirements
+##Arduino Library Requirements
 - pubsubclient by nick o lerry ver 2.8
 
 - Ethernet by Various Author ver 2.0.2
+
+## Upload Firmware
+- upload firmware.ino
