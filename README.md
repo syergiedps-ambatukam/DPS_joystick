@@ -8,8 +8,8 @@ Update pada coding sebelumnya
 
 | sebelum | sesudah | alasan perubahan |
 |--------------|------------|------------------------|
-|steaming data per 0.5 detik posisi joystick | kirim data hanya ketika ada perubahan/instruksi | memperingan kerja microcontroller dan membuat responsif |
-| Timer Triggered | Event Triggered |
+|Steaming data per 0.5 detik posisi joystick | Kirim data hanya ketika ada perubahan/instruksi | Memperingan kerja microcontroller dan membuat responsif |
+| Timer Triggered | Event Triggered | Metode yang cocok untuk mengakomodir yang dibutuhkan |
 
 Pinout Joystick
 | Tombol | Pin Arduino |
@@ -26,3 +26,9 @@ Pinout Joystick
 |steering 4 Left | 12 |
 |steering 4 Right | 19 |
 | Slider 4 | A4 |
+
+
+Arduino Library Requirements
+- pubsubclient by nick o lerry ver 2.8
+
+- Ethernet by Various Author ver 2.0.2
