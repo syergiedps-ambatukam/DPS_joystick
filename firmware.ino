@@ -49,9 +49,9 @@ const String turn_rightID = "Kanan";
 const String Hold = "Tahan";
 
 // DP1
-const int speed1PIN = A1; //A2 A3
-const int button_L1 = 2; //2 19
-const int button_R1 = 3; //3 12
+const int speed1PIN = A2; //A2 A3
+const int button_L1 =  19;
+const int button_R1 = 12;
 int buttonstate1 = 0; 
 int buttonstate2 = 0; 
 int buttonstate1_prev = 0; 
@@ -61,9 +61,9 @@ int speed1_m;
 
 
 //DP2
-const int speed2PIN = A2; //a2  A4
-const int button_L2 = 6; //6 10
-const int button_R2 = 7; //7 9
+const int speed2PIN = A3; //a2  A4
+const int button_L2 =  23;
+const int button_R2 = 9;
 int buttonstate3 = 0; 
 int buttonstate4 = 0;
 int buttonstate3_prev = 0; 
@@ -72,9 +72,9 @@ int speed2;
 int speed2_m;
 
 //DP3
-const int speed3PIN = A3; //a3 A1
-const int button_L3 = 23; //10   7
-const int button_R3 = 9;  //9   6
+const int speed3PIN = A4; //a3 A1
+const int button_L3 = 7;
+const int button_R3 = 6;
 int buttonstate5 = 0; 
 int buttonstate6 = 0; 
 int buttonstate5_prev = 0; 
@@ -83,9 +83,9 @@ int speed3;
 int speed3_m;
 
 //DP4
-const int speed4PIN = A4; //a4  A2
-const int button_L4 = 12; //12   3
-const int button_R4 = 19;  //19   2
+const int speed4PIN = A0; //a4  A2
+const int button_L4 = 3;
+const int button_R4 = 2;
 int buttonstate7 = 0; 
 int buttonstate8 = 0;
 int buttonstate7_prev = 0; 
@@ -391,7 +391,7 @@ if (buttonstate7_prev != buttonstate7 || buttonstate8_prev != buttonstate8){
   steer1_command = map(analogRead(A12),0, 1023,360,0);
   steer2_command = map(analogRead(A13),0, 1023,360,0);
   steer3_command = map(analogRead(A14),0, 1023,360,0);
-  steer1_command = map(analogRead(A15),0, 1023,360,0);
+  steer4_command = map(analogRead(A15),0, 1023,360,0);
 
   client.publish("steer1_command", dtostrf(steer1_command,3,0,steer1_command_send));
   client.publish("steer2_command", dtostrf(steer2_command,3,0,steer2_command_send));
@@ -422,16 +422,16 @@ if (buttonstate7_prev != buttonstate7 || buttonstate8_prev != buttonstate8){
 
   station_keeping_state_prev = station_keeping_state;
   buttonstate10_prev = buttonstate10;
-  /*
-  Serial.print(steer1_command);
+  
+  Serial.print(speed1);
   Serial.print(" ");
-  Serial.print(steer2_command);
+  Serial.print(speed2);
   Serial.print(" ");
-  Serial.print(steer3_command);
+  Serial.print(speed3);
   Serial.print(" ");
-  Serial.print(steer4_command);
+  Serial.print(speed4);
   Serial.println();
-  */
+  
 
 
   buttonstate1_prev = buttonstate1;
