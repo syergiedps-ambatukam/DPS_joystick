@@ -93,6 +93,12 @@ int buttonstate8_prev = 0;
 int speed4;
 int speed4_m;
 
+
+int speed1_prev;
+int speed2_prev;
+int speed3_prev;
+int speed4_prev;
+
 //DP CENTRAL KANAN
 const int speed5PIN = A5;
 const int button_L5 = 14; 
@@ -127,6 +133,14 @@ int steer1_command;
 int steer2_command;
 int steer3_command;
 int steer4_command;
+
+
+int gas_time;
+int gas_time_prev;
+
+int publish_counter;
+
+
 
 // Update these with values suitable for your network.
 byte mac[]    = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xE8 };
@@ -210,6 +224,8 @@ void loop() {
   if (!client.connected()) {
     reconnect();
   }
+
+    
 
      buttonstate1 = digitalRead(button_L1);  // DP LCT Propeller 1
      buttonstate2 = digitalRead(button_R1);  // DP LCT Propeller 1
@@ -383,11 +399,55 @@ if (buttonstate7_prev != buttonstate7 || buttonstate8_prev != buttonstate8){
    else{}
   client.publish("joystick_mqtt", "on");
 
-  client.publish("Set_Speed1", dtostrf(speed1,3,0,speed1_out));
-  client.publish("Set_Speed2", dtostrf(speed2,3,0,speed2_out));
-  client.publish("Set_Speed3", dtostrf(speed3,3,0,speed3_out));
-  client.publish("Set_Speed4", dtostrf(speed4,3,0,speed4_out));
 
+  gas_time = millis() - gas_time_prev;
+  if (gas_time > 500){
+    /*
+    client.publish("propeller1", dtostrf(speed1,3,0,speed1_out));
+    client.publish("propeller2", dtostrf(speed2,3,0,speed2_out));
+    client.publish("propeller3", dtostrf(speed3,3,0,speed3_out));
+    client.publish("propeller4", dtostrf(speed4,3,0,speed4_out));
+    */
+    if (speed1 != speed1_prev){
+    client.publish("propeller1", dtostrf(speed1,3,0,speed1_out));
+    Serial.println("p1 publish");
+    }
+
+    if (speed2 != speed2_prev){
+      client.publish("propeller2", dtostrf(speed2,3,0,speed2_out));
+      Serial.println("p2 publish");
+    }
+
+    if (speed3 != speed3_prev){
+      client.publish("propeller3", dtostrf(speed3,3,0,speed3_out));
+      Serial.println("p3 publish");
+    }
+
+    if (speed4 != speed4_prev){
+      client.publish("propeller4", dtostrf(speed4,3,0,speed4_out));
+      Serial.println("p4 publish");
+    }
+    
+    
+  speed1_prev = speed1;
+  speed2_prev = speed2;
+  speed3_prev = speed3;
+  speed4_prev = speed4;
+    
+    if (publish_counter > 14){
+      client.publish("propeller1", dtostrf(speed1,3,0,speed1_out));
+      client.publish("propeller2", dtostrf(speed2,3,0,speed2_out));      
+      client.publish("propeller3", dtostrf(speed3,3,0,speed3_out));
+      client.publish("propeller4", dtostrf(speed4,3,0,speed4_out));
+      publish_counter = 0;
+    }
+
+    publish_counter = publish_counter+1;
+    gas_time_prev = millis();
+  
+  
+  }
+  
   steer1_command = map(analogRead(A12),0, 1023,360,0);
   steer2_command = map(analogRead(A13),0, 1023,360,0);
   steer3_command = map(analogRead(A14),0, 1023,360,0);
@@ -397,9 +457,6 @@ if (buttonstate7_prev != buttonstate7 || buttonstate8_prev != buttonstate8){
   client.publish("steer2_command", dtostrf(steer2_command,3,0,steer2_command_send));
   client.publish("steer3_command", dtostrf(steer3_command,3,0,steer3_command_send));
   client.publish("steer4_command", dtostrf(steer4_command,3,0,steer4_command_send));
-
-
-
 
   client.loop();
 
@@ -423,14 +480,7 @@ if (buttonstate7_prev != buttonstate7 || buttonstate8_prev != buttonstate8){
   station_keeping_state_prev = station_keeping_state;
   buttonstate10_prev = buttonstate10;
   
-  Serial.print(speed1);
-  Serial.print(" ");
-  Serial.print(speed2);
-  Serial.print(" ");
-  Serial.print(speed3);
-  Serial.print(" ");
-  Serial.print(speed4);
-  Serial.println();
+  
   
 
 
@@ -442,4 +492,6 @@ if (buttonstate7_prev != buttonstate7 || buttonstate8_prev != buttonstate8){
   buttonstate6_prev = buttonstate6;
   buttonstate7_prev = buttonstate7;
   buttonstate8_prev = buttonstate8;
+
+
 }
